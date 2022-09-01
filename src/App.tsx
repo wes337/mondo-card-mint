@@ -37,9 +37,9 @@ const App: Component = () => {
   return (
     <div class="app">
       <div class="card-select">
-        <h2>
-          Click on a card to <span class="glow">MINT</span> it
-        </h2>
+        <h4>
+          Click on a card to <span class="color-change">MINT</span> it
+        </h4>
         <div class="card-select-cards">
           {getRandomCards(5).map((randomCard) => (
             <img
