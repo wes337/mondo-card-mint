@@ -1,67 +1,101 @@
 import { Component, onMount, onCleanup, createSignal } from "solid-js";
 import "./App.scss";
-import { mintCard, clearMintedCards } from "./Minter";
-import { getCardImage, getRandomCards } from "./utils";
+import { mintCard, clearMintedCardAnimations } from "./Minter";
+import { getCardImage, getCardImageById, getRandomCards } from "./utils";
+
+const randomCards = getRandomCards(5);
 
 const App: Component = () => {
+  const [selectedCards, setSelectedCards] = createSignal([]);
   const [mintedCards, setMintedCards] = createSignal([]);
 
   onMount(() => {
-    clearMintedCards();
+    clearMintedCardAnimations();
   });
 
   onCleanup(() => {
-    clearMintedCards();
+    clearMintedCardAnimations();
   });
 
-  const onClickCard = (event) => {
-    const card = event.target;
+  const onClickCard = (cardId) => {
+    if (selectedCards().includes(cardId)) {
+      setSelectedCards(selectedCards().filter((id) => id !== cardId));
+    } else {
+      setSelectedCards([...selectedCards(), cardId]);
+    }
+  };
+
+  const getSelectedCardRefs = () => {
+    return selectedCards().map((selectedCardId) =>
+      document.querySelector(`[data-card="${selectedCardId}"`)
+    );
+  };
+
+  const mintCards = () => {
+    if (selectedCards().length === 0) {
+      return;
+    }
+
     const callback = (cardRef) => {
-      const card = JSON.parse(cardRef.getAttribute("data-card"));
-      setMintedCards([...new Set([...mintedCards(), card])]);
+      const cardId = cardRef.getAttribute("data-card");
+      setMintedCards([...new Set([...mintedCards(), cardId])]);
     };
 
-    const random = Math.random() < 0.5;
+    // const random = Math.random() < 0.5;
 
-    mintCard([card], {
+    const cardRefs = getSelectedCardRefs();
+    mintCard(cardRefs, {
       callback,
-      fallToLeft: random,
     });
   };
 
   const clear = () => {
+    setSelectedCards([]);
     setMintedCards([]);
-    clearMintedCards();
+    clearMintedCardAnimations();
   };
 
   return (
     <div class="app">
       <div class="card-select">
         <h4>
-          Click on a card to <span class="color-change">MINT</span> it
+          Select cards, then press the <span class="color-change">MINT</span>{" "}
+          button
         </h4>
         <div class="card-select-cards">
-          {getRandomCards(5).map((randomCard) => (
-            <img
-              src={getCardImage(randomCard)}
-              width={168}
-              height={284}
-              alt=""
-              data-card={JSON.stringify(randomCard)}
-              onClick={onClickCard}
-            />
-          ))}
-        </div>
-      </div>
-
-      {mintedCards().length && (
-        <div class="minted-card-display" onClick={clear}>
-          {mintedCards().map((card) => {
-            const src = getCardImage(card);
-            return <img src={src} alt="" />;
+          {randomCards.map((randomCard) => {
+            const isSelected = selectedCards().includes(randomCard.id);
+            return (
+              <img
+                class={`${isSelected ? " selected" : ""}`}
+                src={getCardImage(randomCard)}
+                width={168}
+                height={284}
+                alt=""
+                data-card={randomCard.id}
+                onClick={() => onClickCard(randomCard.id)}
+              />
+            );
           })}
         </div>
-      )}
+        <button class="mint-button" onClick={mintCards}>
+          <span class="glow">Mint</span>
+        </button>
+      </div>
+
+      {mintedCards().length > 0 &&
+        mintedCards().length === selectedCards().length && (
+          <div class="minted-card-display" onClick={clear}>
+            {mintedCards().map((mintedCardId) => {
+              const src = getCardImageById(mintedCardId);
+              return (
+                <div class="minted-card-display-card">
+                  <img src={src} alt="" />
+                </div>
+              );
+            })}
+          </div>
+        )}
     </div>
   );
 };

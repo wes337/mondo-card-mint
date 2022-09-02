@@ -72,6 +72,7 @@ p {
   );
 
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-stroke: 2px transparent;
 
   animation: 1s linear infinite alternate backgroundPosition;

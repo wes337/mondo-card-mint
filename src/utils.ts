@@ -1766,14 +1766,22 @@ export const getCardImage = (card) => {
 };
 
 export const getCardImageById = (cardId) => {
-  const card = allCards.find((card) => card.id === cardId);
+  console.log(cardId);
+  const card = allCards.find(
+    (card) => card.id.toString() === cardId.toString()
+  );
   return getCardImage(card);
 };
 
 export const getRandomCards = (number) => {
   const result = [];
+
   for (var i = 0; i < number; i++) {
-    result.push(allCards[Math.floor(Math.random() * allCards.length)]);
+    const randomIndex = Math.floor(
+      Math.random() * (allCards.length - 1 - 0 + 1) + 0
+    );
+    result.push(allCards[randomIndex]);
   }
+
   return result;
 };

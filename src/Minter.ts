@@ -11,6 +11,12 @@ interface mintCardOptions {
 
 const MINT_CARD_ANIMATION_CLASS = "minted-card-animation";
 
+export const clearMintedCardAnimations = () => {
+  document
+    .querySelectorAll(`.${MINT_CARD_ANIMATION_CLASS}`)
+    .forEach((element) => element.remove());
+};
+
 export const mintCard = (cardRefs, options?: mintCardOptions) => {
   const g = options?.g || -3;
   const dt = options?.dt || 5;
@@ -59,7 +65,8 @@ export const mintCard = (cardRefs, options?: mintCardOptions) => {
   const startFall = (elem, height, stagger) => {
     let dx = Math.floor(Math.random() * 10) + 5;
 
-    if (fallToLeft) {
+    const fallRandomlyToLeft = Math.random() < 0.5;
+    if (fallRandomlyToLeft) {
       dx = -dx;
     }
 
@@ -81,21 +88,15 @@ export const mintCard = (cardRefs, options?: mintCardOptions) => {
   };
 
   if (clear) {
-    clearMintedCards();
+    clearMintedCardAnimations();
   }
 
-  cardRefs.forEach((cardRef) => {
+  cardRefs.forEach((cardRef, index) => {
     if (
       cardRef.offsetHeight < window.outerHeight &&
       !cardRef.classList.contains(`.${MINT_CARD_ANIMATION_CLASS}`)
     ) {
-      startFall(cardRef, cardRef.offsetHeight, 1 * stagger);
+      startFall(cardRef, cardRef.offsetHeight, index * stagger);
     }
   });
-};
-
-export const clearMintedCards = () => {
-  document
-    .querySelectorAll(`.${MINT_CARD_ANIMATION_CLASS}`)
-    .forEach((element) => element.remove());
 };
