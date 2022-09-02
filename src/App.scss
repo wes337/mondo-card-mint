@@ -53,8 +53,13 @@ body {
     margin: 1.5rem;
 
     @media only screen and (max-width: 600px) {
-      gap: 0.25rem;
-      margin: 0;
+      gap: 1.5rem;
+      margin: 1rem 0;
+
+      img {
+        width: calc(50vw - 2rem);
+        height: auto;
+      }
     }
 
     img {

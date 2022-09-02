@@ -19,6 +19,7 @@ const App: Component = () => {
 
   const onClickCard = (event, cardId) => {
     if (selectedCards().includes(cardId)) {
+      event.preventDefault();
       setSelectedCards(selectedCards().filter((id) => id !== cardId));
       event.target.blur();
     } else {
