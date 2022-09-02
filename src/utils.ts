@@ -1766,7 +1766,6 @@ export const getCardImage = (card) => {
 };
 
 export const getCardImageById = (cardId) => {
-  console.log(cardId);
   const card = allCards.find(
     (card) => card.id.toString() === cardId.toString()
   );
