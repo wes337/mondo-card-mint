@@ -1773,14 +1773,9 @@ export const getCardImageById = (cardId) => {
 };
 
 export const getRandomCards = (number) => {
-  const result = [];
+  const shuffledCards = [...allCards].sort(() => {
+    return 0.5 - Math.random();
+  });
 
-  for (var i = 0; i < number; i++) {
-    const randomIndex = Math.floor(
-      Math.random() * (allCards.length - 1 - 0 + 1) + 0
-    );
-    result.push(allCards[randomIndex]);
-  }
-
-  return result;
+  return shuffledCards.slice(0, number);
 };
