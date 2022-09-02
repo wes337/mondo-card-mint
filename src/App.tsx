@@ -17,9 +17,10 @@ const App: Component = () => {
     clearMintedCardAnimations();
   });
 
-  const onClickCard = (cardId) => {
+  const onClickCard = (event, cardId) => {
     if (selectedCards().includes(cardId)) {
       setSelectedCards(selectedCards().filter((id) => id !== cardId));
+      event.target.blur();
     } else {
       setSelectedCards([...selectedCards(), cardId]);
     }
@@ -76,7 +77,7 @@ const App: Component = () => {
 
   return (
     <div class="app">
-      <div class="card-select">
+      <div class={`card-select${showSpotlight() ? " spotlight-open" : ""}`}>
         <h4>
           Select cards, then press the <span class="color-change">MINT</span>{" "}
           button
@@ -92,7 +93,7 @@ const App: Component = () => {
                 height={284}
                 alt=""
                 data-card={randomCard.id}
-                onClick={() => onClickCard(randomCard.id)}
+                onClick={(event) => onClickCard(event, randomCard.id)}
               />
             );
           })}

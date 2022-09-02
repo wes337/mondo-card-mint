@@ -29,8 +29,18 @@ body {
   align-items: center;
   justify-content: center;
 
+  min-height: 100vh;
+  min-width: 100vw;
+
+  &.spotlight-open {
+    // Prevents scrolling on mobile when spotlight is open
+    max-height: 100vh;
+    overflow: hidden;
+  }
+
   h4 {
     text-align: center;
+    margin: 1rem;
   }
 
   .card-select-cards {
@@ -39,8 +49,13 @@ body {
 
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
+    gap: 2rem;
+    margin: 1.5rem;
+
+    @media only screen and (max-width: 600px) {
+      gap: 0.25rem;
+      margin: 0;
+    }
 
     img {
       cursor: pointer;
@@ -82,9 +97,9 @@ body {
 }
 
 .minted-card-display {
-  position: absolute;
-  min-height: 100vh;
-  min-width: 100vw;
+  position: fixed;
+  height: 100%;
+  width: 100%;
   top: 0;
   left: 0;
   margin: 0;
@@ -94,7 +109,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   flex-wrap: wrap;
   animation: backgroundOverlayIn 0.5s forwards;
 

@@ -4,7 +4,6 @@ interface mintCardOptions {
   bounce?: number;
   endVelocity?: number;
   stagger?: number;
-  fallToLeft?: boolean;
   clear?: boolean;
   callback?: (card: any) => void;
 }
@@ -23,7 +22,6 @@ export const mintCard = (cardRefs, options?: mintCardOptions) => {
   const bounce = options?.bounce || 0.99;
   const endVelocity = options?.endVelocity || 0;
   const stagger = options?.stagger || 200;
-  const fallToLeft = options?.fallToLeft || false;
   const clear = options?.clear || false;
   const callback = options?.callback || null;
 
