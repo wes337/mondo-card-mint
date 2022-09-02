@@ -1,7 +1,7 @@
 import { Component, onMount, onCleanup, createSignal } from "solid-js";
-import "./App.scss";
 import { mintCard, clearMintedCardAnimations } from "./Minter";
 import { getCardImage, getCardImageById, getRandomCards } from "./utils";
+import "./App.scss";
 
 const randomCards = getRandomCards(5);
 
@@ -41,8 +41,6 @@ const App: Component = () => {
       setMintedCards([...new Set([...mintedCards(), cardId])]);
     };
 
-    // const random = Math.random() < 0.5;
-
     const cardRefs = getSelectedCardRefs();
     mintCard(cardRefs, {
       callback,
@@ -50,10 +48,31 @@ const App: Component = () => {
   };
 
   const clear = () => {
+    clearMintedCardAnimations();
     setSelectedCards([]);
     setMintedCards([]);
-    clearMintedCardAnimations();
   };
+
+  const closeSpotlight = () => {
+    clearMintedCardAnimations();
+
+    const mintedCardRefs = document.querySelectorAll(
+      ".minted-card-display-card img"
+    );
+    const spotlightRef = document.querySelector(".minted-card-display");
+    spotlightRef.classList.add("fade-out");
+    mintedCardRefs.forEach((card) => {
+      card.classList.add("spin-out");
+    });
+
+    const animationDuration = 500;
+    setTimeout(() => {
+      clear();
+    }, animationDuration);
+  };
+
+  const showSpotlight = () =>
+    mintedCards().length > 0 && mintedCards().length === selectedCards().length;
 
   return (
     <div class="app">
@@ -83,19 +102,18 @@ const App: Component = () => {
         </button>
       </div>
 
-      {mintedCards().length > 0 &&
-        mintedCards().length === selectedCards().length && (
-          <div class="minted-card-display" onClick={clear}>
-            {mintedCards().map((mintedCardId) => {
-              const src = getCardImageById(mintedCardId);
-              return (
-                <div class="minted-card-display-card">
-                  <img src={src} alt="" />
-                </div>
-              );
-            })}
-          </div>
-        )}
+      {showSpotlight() && (
+        <div class="minted-card-display" onClick={closeSpotlight}>
+          {mintedCards().map((mintedCardId) => {
+            const src = getCardImageById(mintedCardId);
+            return (
+              <div class="minted-card-display-card">
+                <img src={src} alt="" />
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

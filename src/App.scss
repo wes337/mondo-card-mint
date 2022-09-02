@@ -2,6 +2,7 @@
 @import "./styles/colors.scss";
 @import "./styles/fonts.scss";
 @import "./styles/effects.scss";
+@import "./styles/animations.scss";
 
 html,
 body {
@@ -95,16 +96,7 @@ body {
   gap: 1.5rem;
   overflow: hidden;
   flex-wrap: wrap;
-  animation: backgroundIn 0.5s forwards;
-
-  @keyframes backgroundIn {
-    0% {
-      background-color: rgba($colorBlack, 0);
-    }
-    100% {
-      background-color: rgba($colorBlack, 0.75);
-    }
-  }
+  animation: backgroundOverlayIn 0.5s forwards;
 
   .minted-card-display-card {
     max-width: calc(20vw - 1.5rem);
@@ -120,15 +112,12 @@ body {
     position: relative;
     animation: spinIn 0.5s forwards;
 
-    @keyframes spinIn {
-      0% {
-        left: 100%;
-        transform: rotateY(360deg);
-      }
-      100% {
-        left: 0;
-        transform: rotateY(0deg);
-      }
+    &.spin-out {
+      animation: spinOut 0.5s forwards;
     }
+  }
+
+  &.fade-out {
+    animation: backgroundOverlayOut 0.5s forwards;
   }
 }
