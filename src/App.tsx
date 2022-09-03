@@ -14,7 +14,7 @@ const App: Component = () => {
           width: 168,
           height: 284,
         }}
-        timeBetweenFrames={20} // Lower number will increase speed
+        timeBetweenFrames={30} // Lower number will increase speed
         callback={() => {
           // Callback function fired after spotlight is closed
           console.log("Finished!");
