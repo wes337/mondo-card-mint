@@ -1,0 +1,104 @@
+@import "./styles/text.scss";
+@import "./styles/colors.scss";
+@import "./styles/fonts.scss";
+@import "./styles/effects.scss";
+@import "./styles/animations.scss";
+
+.card-select {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-height: 100vh;
+  min-width: 100vw;
+
+  &.spotlight-open {
+    // Prevents scrolling on mobile when spotlight is open
+    max-height: 100vh;
+    overflow: hidden;
+  }
+
+  .card-select-cards {
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem;
+
+    @media only screen and (max-width: 600px) {
+      gap: 1.5rem;
+      margin: 1rem 0;
+
+      img {
+        width: calc(50vw - 2rem);
+        height: auto;
+      }
+    }
+
+    img {
+      cursor: pointer;
+      border: 4px solid transparent;
+      box-shadow: 0px 0px 0px 0px $colorGreen;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+      &.selected {
+        transform: scale(1.05);
+        box-shadow: 0px 0px 0px 4px complement($colorGreen);
+      }
+
+      &:hover,
+      &:focus {
+        box-shadow: 0px 0px 0px 4px $colorGreen;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.minted-card-display {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  animation: backgroundOverlayIn 0.5s forwards;
+
+  .minted-card-display-card {
+    max-width: calc(20vw - 1.5rem);
+
+    @media only screen and (max-width: 600px) {
+      max-width: 80vw;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    position: relative;
+    animation: spinIn 0.5s forwards;
+
+    &.spin-out {
+      animation: spinOut 0.5s forwards;
+    }
+  }
+
+  &.fade-out {
+    animation: backgroundOverlayOut 0.5s forwards;
+  }
+}

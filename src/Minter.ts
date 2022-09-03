@@ -18,7 +18,7 @@ export const clearMintedCardAnimations = () => {
 
 export const mintCard = (cardRefs, options?: mintCardOptions) => {
   const g = options?.g || -3;
-  const dt = options?.dt || 5;
+  const dt = options?.dt || 20;
   const bounce = options?.bounce || 0.99;
   const endVelocity = options?.endVelocity || 0;
   const stagger = options?.stagger || 200;
